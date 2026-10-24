@@ -1,0 +1,15 @@
+
+.venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+
+# Private banking information
+data/raw/
+data/processed/
+
+# Python temporary files
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
