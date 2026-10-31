@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Transactions | SpendWise SA</title>
 
@@ -26,8 +25,7 @@
                 Dashboard
             </a>
 
-            <a href="transactions.html"
-               class="nav-link active">
+            <a href="transactions.html" class="nav-link active">
                 Transactions
             </a>
 
@@ -73,19 +71,14 @@
                 <p>Search and filter your records</p>
             </div>
 
-            <form id="transaction-filter-form"
-                  class="filter-grid">
+            <form id="transaction-filter-form" class="filter-grid">
 
                 <div class="filter-field">
                     <label for="transaction-search">
                         Search Category
                     </label>
 
-                    <input
-                        type="search"
-                        id="transaction-search"
-                        placeholder="e.g. Groceries"
-                    >
+                    <input type="search" id="transaction-search" placeholder="e.g. Groceries">
                 </div>
 
                 <div class="filter-field">
@@ -106,24 +99,20 @@
 
                 <div class="filter-field filter-checkbox">
                     <label>
-                        <input type="checkbox"
-                               id="review-only">
+                        <input type="checkbox" id="review-only">
                         Needs Review Only
                     </label>
                 </div>
 
                 <div class="filter-field">
-                    <button type="submit"
-                            class="filter-button">
+                    <button type="submit" class="filter-button">
                         Apply Filters
                     </button>
                 </div>
 
             </form>
 
-            <button type="button"
-                    id="clear-filters"
-                    class="clear-button">
+            <button type="button" id="clear-filters" class="clear-button">
                 Clear Filters
             </button>
 
@@ -154,8 +143,7 @@
 
                     <tbody id="all-transactions-body">
                         <tr>
-                            <td colspan="5"
-                                class="table-message">
+                            <td colspan="5" class="table-message">
                                 Loading transactions...
                             </td>
                         </tr>
@@ -167,8 +155,7 @@
             <!-- Pagination -->
             <div class="pagination-controls">
 
-                <button type="button"
-                        id="previous-page">
+                <button type="button" id="previous-page">
                     Previous
                 </button>
 
@@ -176,8 +163,7 @@
                     Page 1
                 </span>
 
-                <button type="button"
-                        id="next-page">
+                <button type="button" id="next-page">
                     Next
                 </button>
 
@@ -192,8 +178,29 @@
 
     </main>
 
+    <!-- ========================================
+     TRANSACTION DETAILS PANEL
+======================================== -->
+
+    <div id="transaction-overlay" class="transaction-overlay" hidden></div>
+
+    <aside id="transaction-details-panel" class="transaction-details-panel" hidden>
+        <div class="details-header">
+            <h2 id="details-title">Transaction Details</h2>
+
+            <button id="close-details" type="button">
+                &times;
+            </button>
+        </div>
+
+        <div id="transaction-details-content" class="details-content">
+            Loading transaction details...
+        </div>
+    </aside>
+
     <script src="js/api.js"></script>
     <script src="js/transactions.js"></script>
 
 </body>
+
 </html>

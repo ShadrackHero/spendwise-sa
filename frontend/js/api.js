@@ -81,3 +81,114 @@ async function getTransactions(filters = {}) {
 
     return await response.json();
 }
+
+// ----------------------------------------
+// Get individual transaction details
+// ----------------------------------------
+
+async function getTransactionDetails(transactionId) {
+
+    const response = await fetch(
+        `http://127.0.0.1:8000/api/transactions/${transactionId}`
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load transaction details: ${response.status}`
+        );
+    }
+
+    return await response.json();
+}
+
+// ----------------------------------------
+// Get individual transaction details
+// ----------------------------------------
+
+async function getTransactionDetails(transactionId) {
+
+    const response = await fetch(
+        `http://127.0.0.1:8000/api/transactions/${transactionId}`
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load transaction details: ${response.status}`
+        );
+    }
+
+    return await response.json();
+}
+
+// ----------------------------------------
+// Update transaction review status
+// ----------------------------------------
+
+async function updateTransactionReview(transactionId, reviewRequired) {
+    const response = await fetch(
+        `http://127.0.0.1:8000/api/transactions/${transactionId}/review`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                review_required: reviewRequired
+            })
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to update transaction review: ${response.status}`
+        );
+    }
+
+    return await response.json();
+}
+
+// ----------------------------------------
+// Get available transaction categories
+// ----------------------------------------
+
+async function getCategories() {
+    const response = await fetch(
+        "http://127.0.0.1:8000/api/categories"
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to load categories.");
+    }
+
+    return await response.json();
+}
+
+
+// ----------------------------------------
+// Update transaction category
+// ----------------------------------------
+
+async function updateTransactionCategory(transactionId, categoryId) {
+    const response = await fetch(
+        `http://127.0.0.1:8000/api/transactions/${transactionId}/category`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                category_id: categoryId
+            })
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to update category: ${response.status}`
+        );
+    }
+
+    return await response.json();
+}
+
+
