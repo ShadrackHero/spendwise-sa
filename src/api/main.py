@@ -759,3 +759,239 @@ def update_transaction_category(
         print("Database error:", error)
 
         raise HTTPException(status_code=503, detail="Database temporarily unavailable.")
+
+# ========================================
+# CHAPTER 14 - CATEGORIES SUMMARY API
+# ========================================
+
+@app.get("/api/categories/summary")
+def get_categories_summary():
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+
+                # ----------------------------------------
+                # 1. Count available categories
+                # ----------------------------------------
+
+                cursor.execute("""
+                    SELECT COUNT(*)
+                    FROM categories;
+                """)
+
+                total_categories = cursor.fetchone()[0]
+
+                # ----------------------------------------
+                # 2. Calculate transaction statistics
+                # ----------------------------------------
+
+                cursor.execute("""
+                    SELECT
+
+                        COUNT(*) AS total_transactions,
+
+                        COUNT(*) FILTER (
+                            WHERE t.category_id IS NOT NULL
+                              AND (
+                                  c.category_name IS NULL
+                                  OR c.category_name <> 'Uncategorized'
+                              )
+                        ) AS categorized_transactions,
+
+                        COUNT(*) FILTER (
+                            WHERE t.category_id IS NULL
+                               OR c.category_name = 'Uncategorized'
+                        ) AS uncategorized_transactions,
+
+                        COALESCE(
+                            SUM(-t.cash_flow) FILTER (
+                                WHERE t.cash_flow_class = 'Expense'
+                                  AND t.cash_flow < 0
+                            ), 0
+                        ) AS total_expenses
+
+                    FROM transactions t
+
+                    LEFT JOIN categories c
+                        ON t.category_id = c.category_id;
+                """)
+
+                result = cursor.fetchone()
+
+                return {
+                    "total_categories": total_categories,
+                    "total_transactions": result[0],
+                    "categorized_transactions": result[1],
+                    "uncategorized_transactions": result[2],
+                    "total_expenses": float(result[3])
+                }
+
+    except DatabaseError as error:
+
+        print("Categories summary database error:", error)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve categories summary."
+        )
+
+
+# ========================================
+# CHAPTER 14 - CATEGORIES TABLE API
+# ========================================
+
+@app.get("/api/categories/statistics")
+def get_categories_statistics():
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+
+                cursor.execute("""
+                    WITH category_stats AS (
+                        SELECT
+                            c.category_id,
+                            c.category_name,
+
+                            COUNT(t.transaction_id)
+                                AS transaction_count,
+
+                            COALESCE(
+                                SUM(-t.cash_flow) FILTER (
+                                    WHERE t.cash_flow_class = 'Expense'
+                                      AND t.cash_flow < 0
+                                ), 0
+                            ) AS total_expenses
+
+                        FROM categories c
+
+                        LEFT JOIN transactions t
+                            ON c.category_id = t.category_id
+
+                        GROUP BY
+                            c.category_id,
+                            c.category_name
+                    )
+
+                    SELECT
+                        category_id,
+                        category_name,
+                        transaction_count,
+                        total_expenses,
+
+                        CASE
+                            WHEN SUM(total_expenses) OVER () > 0
+                            THEN ROUND(
+                                total_expenses * 100.0
+                                / SUM(total_expenses) OVER (), 2
+                            )
+                            ELSE 0
+                        END AS expense_percentage
+
+                    FROM category_stats
+
+                    ORDER BY
+                        total_expenses DESC,
+                        category_name ASC;
+                """)
+
+                rows = cursor.fetchall()
+
+                categories = []
+
+                for row in rows:
+                    categories.append({
+                        "category_id": row[0],
+                        "category_name": row[1],
+                        "transaction_count": row[2],
+                        "total_expenses": float(row[3]),
+                        "expense_percentage": float(row[4])
+                    })
+
+                return {
+                    "total_categories": len(categories),
+                    "categories": categories
+                }
+
+    except DatabaseError as error:
+
+        print("Categories statistics database error:", error)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve category statistics."
+        )
+
+
+# ========================================
+# CHAPTER 14 - CATEGORY DETAILS API
+# ========================================
+
+@app.get("/api/categories/{category_id}")
+def get_category_details(category_id: int):
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+
+                cursor.execute("""
+                    SELECT
+                        c.category_id,
+                        c.category_name,
+                        c.description,
+
+                        COUNT(t.transaction_id)
+                            AS transaction_count,
+
+                        COALESCE(
+                            SUM(-t.cash_flow) FILTER (
+                                WHERE t.cash_flow_class = 'Expense'
+                                  AND t.cash_flow < 0
+                            ), 0
+                        ) AS total_expenses,
+
+                        COALESCE(
+                            SUM(t.cash_flow) FILTER (
+                                WHERE t.cash_flow_class = 'Income'
+                            ), 0
+                        ) AS total_income
+
+                    FROM categories c
+
+                    LEFT JOIN transactions t
+                        ON c.category_id = t.category_id
+
+                    WHERE c.category_id = %s
+
+                    GROUP BY
+                        c.category_id,
+                        c.category_name,
+                        c.description;
+                """, (category_id,))
+
+                result = cursor.fetchone()
+
+                if result is None:
+                    raise HTTPException(
+                        status_code=404,
+                        detail="Category not found."
+                    )
+
+                return {
+                    "category_id": result[0],
+                    "category_name": result[1],
+                    "description": result[2],
+                    "transaction_count": result[3],
+                    "total_expenses": float(result[4]),
+                    "total_income": float(result[5])
+                }
+
+    except DatabaseError as error:
+
+        print("Category details database error:", error)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve category details."
+        )
