@@ -995,3 +995,70 @@ def get_category_details(category_id: int):
             status_code=500,
             detail="Unable to retrieve category details."
         )
+
+
+# ----------------------------------------
+# CHAPTER 15 - MONTHLY FINANCIAL ANALYTICS
+# ----------------------------------------
+
+@app.get("/api/analytics/monthly")
+def get_monthly_financial_analytics():
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cursor:
+
+                cursor.execute("""
+                    SELECT
+                        TO_CHAR(posting_date, 'YYYY-MM') AS month,
+
+                        COALESCE(
+                            SUM(cash_flow) FILTER (
+                                WHERE cash_flow_class = 'Income'
+                                  AND cash_flow > 0
+                            ), 0
+                        ) AS total_income,
+
+                        COALESCE(
+                            SUM(-cash_flow) FILTER (
+                                WHERE cash_flow_class = 'Expense'
+                                  AND cash_flow < 0
+                            ), 0
+                        ) AS total_expenses
+
+                    FROM transactions
+
+                    WHERE posting_date IS NOT NULL
+
+                    GROUP BY TO_CHAR(posting_date, 'YYYY-MM')
+                    ORDER BY month;
+                """)
+
+                results = cursor.fetchall()
+
+                monthly_data = []
+
+                for row in results:
+
+                    month = row[0]
+                    income = float(row[1])
+                    expenses = float(row[2])
+                    net_cash_flow = income - expenses
+
+                    monthly_data.append({
+                        "month": month,
+                        "total_income": income,
+                        "total_expenses": expenses,
+                        "net_cash_flow": round(net_cash_flow, 2)
+                    })
+
+                return {
+                    "total_months": len(monthly_data),
+                    "months": monthly_data
+                }
+
+    except DatabaseError:
+        raise HTTPException(
+            status_code=503,
+            detail="Database temporarily unavailable."
+        )

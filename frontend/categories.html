@@ -1,12 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Categories | SpendWise SA</title>
 
@@ -69,12 +67,11 @@
                 Transactions
             </a>
 
-            <a href="categories.html"
-               class="nav-link active">
+            <a href="categories.html" class="nav-link active">
                 Categories
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="insights.html" class="nav-link">
                 Insights
             </a>
 
@@ -225,8 +222,7 @@
 
             </div>
 
-            <form id="category-filter-form"
-                  class="filter-grid">
+            <form id="category-filter-form" class="filter-grid">
 
                 <div class="filter-field">
 
@@ -234,19 +230,13 @@
                         Search Category
                     </label>
 
-                    <input
-                        type="search"
-                        id="category-search"
-                        placeholder="e.g. Food & Dining"
-                    >
+                    <input type="search" id="category-search" placeholder="e.g. Food & Dining">
 
                 </div>
 
                 <div class="filter-field">
 
-                    <button
-                        type="submit"
-                        class="filter-button">
+                    <button type="submit" class="filter-button">
                         Search
                     </button>
 
@@ -254,10 +244,7 @@
 
             </form>
 
-            <button
-                type="button"
-                id="clear-category-filters"
-                class="clear-button">
+            <button type="button" id="clear-category-filters" class="clear-button">
                 Clear Search
             </button>
 
@@ -299,8 +286,7 @@
 
                         <tr>
 
-                            <td colspan="4"
-                                class="table-message">
+                            <td colspan="4" class="table-message">
                                 Loading categories...
                             </td>
 
@@ -338,10 +324,7 @@
          CATEGORY DETAILS OVERLAY
     ======================================== -->
 
-    <div
-        id="category-overlay"
-        class="transaction-overlay"
-        hidden>
+    <div id="category-overlay" class="transaction-overlay" hidden>
     </div>
 
 
@@ -349,13 +332,8 @@
          CATEGORY DETAILS SLIDE-OUT PANEL
     ======================================== -->
 
-    <aside
-        id="category-details-panel"
-        class="transaction-details-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="category-details-title"
-        hidden>
+    <aside id="category-details-panel" class="transaction-details-panel" role="dialog" aria-modal="true"
+        aria-labelledby="category-details-title" hidden>
 
         <!-- Panel Header -->
 
@@ -365,10 +343,7 @@
                 Category Details
             </h2>
 
-            <button
-                id="close-category-details"
-                type="button"
-                aria-label="Close category details">
+            <button id="close-category-details" type="button" aria-label="Close category details">
                 &times;
             </button>
 
@@ -377,9 +352,7 @@
 
         <!-- Panel Content -->
 
-        <div
-            id="category-details-content"
-            class="details-content">
+        <div id="category-details-content" class="details-content">
 
             Select a category to view its details.
 

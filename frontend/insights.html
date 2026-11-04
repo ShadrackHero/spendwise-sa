@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Insights | SpendWise SA</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ========================================
+         SIDEBAR
+    ======================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h2>
+                SpendWise <span>SA</span>
+            </h2>
+
+            <p>Personal Finance Analytics</p>
+        </div>
+
+        <nav class="navigation">
+
+            <a href="index.html" class="nav-link">
+                Dashboard
+            </a>
+
+            <a href="transactions.html" class="nav-link">
+                Transactions
+            </a>
+
+            <a href="categories.html" class="nav-link">
+                Categories
+            </a>
+
+            <a href="insights.html" class="nav-link active">
+                Insights
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>Spend smarter. Live better.</p>
+        </div>
+
+    </aside>
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ======================================== -->
+
+    <main class="main-content">
+
+        <!-- ========================================
+             PAGE HEADER
+        ======================================== -->
+
+        <header class="page-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    Financial analytics
+                </p>
+
+                <h1>Insights</h1>
+
+                <p>
+                    Understand your monthly income,
+                    expenses and financial performance.
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <span class="status-indicator">
+                    Local Dashboard
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================================
+             FINANCIAL SUMMARY CARDS
+        ======================================== -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <p class="card-label">
+                    Total Income
+                </p>
+
+                <h2 id="insights-total-income">
+                    —
+                </h2>
+
+                <p class="card-description">
+                    Classified incoming income
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <p class="card-label">
+                    Total Expenses
+                </p>
+
+                <h2 id="insights-total-expenses">
+                    —
+                </h2>
+
+                <p class="card-description">
+                    Classified outgoing expenses
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <p class="card-label">
+                    Net Cash Flow
+                </p>
+
+                <h2 id="insights-net-cash-flow">
+                    —
+                </h2>
+
+                <p class="card-description">
+                    Classified income minus expenses
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <p class="card-label">
+                    Months Analyzed
+                </p>
+
+                <h2 id="insights-total-months">
+                    —
+                </h2>
+
+                <p class="card-description">
+                    Monthly reporting periods
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             MONTHLY INCOME VS EXPENSES
+        ======================================== -->
+
+        <section class="chart-card full-width">
+
+            <div class="section-heading">
+
+                <h3>Monthly Income vs Expenses</h3>
+
+                <p>
+                    Compare classified income and expenses
+                    across reporting months.
+                </p>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="income-expenses-chart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             MONTHLY NET CASH FLOW
+        ======================================== -->
+
+        <section class="chart-card full-width">
+
+            <div class="section-heading">
+
+                <h3>Monthly Net Cash Flow</h3>
+
+                <p>
+                    Track monthly financial surpluses
+                    and deficits.
+                </p>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="net-cash-flow-chart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             MONTHLY FINANCIAL TABLE
+        ======================================== -->
+
+        <section class="chart-card full-width transactions-section">
+
+            <div class="section-heading">
+
+                <h3>Monthly Financial Performance</h3>
+
+                <p>
+                    Detailed monthly classified financial
+                    results.
+                </p>
+
+            </div>
+
+            <div class="table-container">
+
+                <table class="transactions-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Month</th>
+                            <th>Income</th>
+                            <th>Expenses</th>
+                            <th>Net Cash Flow</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="insights-table-body">
+
+                        <tr>
+                            <td colspan="4" class="table-message">
+                                Loading monthly insights...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             FOOTER
+        ======================================== -->
+
+        <footer class="footer">
+
+            <p>
+                SpendWise SA • Personal Finance Analytics
+            </p>
+
+            <p>
+                Local development version
+            </p>
+
+        </footer>
+
+    </main>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+    <!-- SpendWise SA JavaScript -->
+    <script src="js/api.js"></script>
+    <script src="js/insights.js"></script>
+
+</body>
+
+</html>

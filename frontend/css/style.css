@@ -984,3 +984,26 @@ body {
     display: block;
     z-index: 1000;
 }
+
+
+/* ========================================
+   CHAPTER 15 - INSIGHTS CHARTS
+======================================== */
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    margin-top: 20px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 280px;
+    }
+}
