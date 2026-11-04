@@ -142,7 +142,7 @@ spendwise-sa/
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/spendwise-sa.git
+git clone https://github.com/ShadrackHero/spendwise-sa.git
 cd spendwise-sa
 ```
 
